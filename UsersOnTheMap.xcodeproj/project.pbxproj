@@ -7,19 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7F6D9EF81DE8428A00F1E9BB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7F6D9EF71DE8428A00F1E9BB /* GoogleService-Info.plist */; };
 		7F93C68B1DE74F43009A46A6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F93C68A1DE74F43009A46A6 /* AppDelegate.swift */; };
 		7F93C68D1DE74F43009A46A6 /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F93C68C1DE74F43009A46A6 /* AuthorizationViewController.swift */; };
 		7F93C6901DE74F43009A46A6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F93C68E1DE74F43009A46A6 /* Main.storyboard */; };
 		7F93C6921DE74F43009A46A6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F93C6911DE74F43009A46A6 /* Assets.xcassets */; };
 		7F93C6951DE74F43009A46A6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F93C6931DE74F43009A46A6 /* LaunchScreen.storyboard */; };
-		7F93C69D1DE75531009A46A6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7F93C69C1DE75531009A46A6 /* GoogleService-Info.plist */; };
 		7F93C6A11DE7A08A009A46A6 /* MapWithUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F93C6A01DE7A08A009A46A6 /* MapWithUsersViewController.swift */; };
+		7F93C6A41DE7C273009A46A6 /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F93C6A31DE7C273009A46A6 /* CurrentUser.swift */; };
+		7F93C6A61DE81D67009A46A6 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F93C6A51DE81D67009A46A6 /* UserManager.swift */; };
+		7F93C6A81DE81E20009A46A6 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F93C6A71DE81E20009A46A6 /* User.swift */; };
 		A2C73C8B3B81F5ADD1DC4E42 /* Pods_UsersOnTheMap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D5C8F0309C3C790B19C3DE9 /* Pods_UsersOnTheMap.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1E4F1B742BCD5AE67FA2F8AD /* Pods-UsersOnTheMap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UsersOnTheMap.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UsersOnTheMap/Pods-UsersOnTheMap.debug.xcconfig"; sourceTree = "<group>"; };
 		5D5C8F0309C3C790B19C3DE9 /* Pods_UsersOnTheMap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UsersOnTheMap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7F6D9EF71DE8428A00F1E9BB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7F93C6871DE74F43009A46A6 /* UsersOnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UsersOnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F93C68A1DE74F43009A46A6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7F93C68C1DE74F43009A46A6 /* AuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewController.swift; sourceTree = "<group>"; };
@@ -27,8 +31,10 @@
 		7F93C6911DE74F43009A46A6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7F93C6941DE74F43009A46A6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7F93C6961DE74F43009A46A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7F93C69C1DE75531009A46A6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7F93C6A01DE7A08A009A46A6 /* MapWithUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapWithUsersViewController.swift; sourceTree = "<group>"; };
+		7F93C6A31DE7C273009A46A6 /* CurrentUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
+		7F93C6A51DE81D67009A46A6 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		7F93C6A71DE81E20009A46A6 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		8AD5D708142228B54ABFA434 /* Pods-UsersOnTheMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UsersOnTheMap.release.xcconfig"; path = "Pods/Target Support Files/Pods-UsersOnTheMap/Pods-UsersOnTheMap.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -82,6 +88,7 @@
 		7F93C6891DE74F43009A46A6 /* UsersOnTheMap */ = {
 			isa = PBXGroup;
 			children = (
+				7F93C6A21DE7C244009A46A6 /* Model */,
 				7F93C68A1DE74F43009A46A6 /* AppDelegate.swift */,
 				7F93C68C1DE74F43009A46A6 /* AuthorizationViewController.swift */,
 				7F93C6A01DE7A08A009A46A6 /* MapWithUsersViewController.swift */,
@@ -89,9 +96,19 @@
 				7F93C6931DE74F43009A46A6 /* LaunchScreen.storyboard */,
 				7F93C6911DE74F43009A46A6 /* Assets.xcassets */,
 				7F93C6961DE74F43009A46A6 /* Info.plist */,
-				7F93C69C1DE75531009A46A6 /* GoogleService-Info.plist */,
+				7F6D9EF71DE8428A00F1E9BB /* GoogleService-Info.plist */,
 			);
 			path = UsersOnTheMap;
+			sourceTree = "<group>";
+		};
+		7F93C6A21DE7C244009A46A6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7F93C6A31DE7C273009A46A6 /* CurrentUser.swift */,
+				7F93C6A51DE81D67009A46A6 /* UserManager.swift */,
+				7F93C6A71DE81E20009A46A6 /* User.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -158,7 +175,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7F93C6951DE74F43009A46A6 /* LaunchScreen.storyboard in Resources */,
-				7F93C69D1DE75531009A46A6 /* GoogleService-Info.plist in Resources */,
+				7F6D9EF81DE8428A00F1E9BB /* GoogleService-Info.plist in Resources */,
 				7F93C6921DE74F43009A46A6 /* Assets.xcassets in Resources */,
 				7F93C6901DE74F43009A46A6 /* Main.storyboard in Resources */,
 			);
@@ -221,6 +238,9 @@
 			files = (
 				7F93C68D1DE74F43009A46A6 /* AuthorizationViewController.swift in Sources */,
 				7F93C68B1DE74F43009A46A6 /* AppDelegate.swift in Sources */,
+				7F93C6A81DE81E20009A46A6 /* User.swift in Sources */,
+				7F93C6A41DE7C273009A46A6 /* CurrentUser.swift in Sources */,
+				7F93C6A61DE81D67009A46A6 /* UserManager.swift in Sources */,
 				7F93C6A11DE7A08A009A46A6 /* MapWithUsersViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

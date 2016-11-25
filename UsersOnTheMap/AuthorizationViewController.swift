@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class AuthorizationViewController: UIViewController, UITextFieldDelegate {
     
@@ -22,6 +23,11 @@ class AuthorizationViewController: UIViewController, UITextFieldDelegate {
         // Do any additional setup after loading the view, typically from a nib.
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        if let user = FIRAuth.auth()?.currentUser {
+            self.signedIn(user: user)
+        }
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -74,8 +80,39 @@ class AuthorizationViewController: UIViewController, UITextFieldDelegate {
         present(alert, animated: true, completion: nil)
     }
     
-    @IBAction func didTouchSignInButton(_ sender: Any) {
+    private func signedIn(user:FIRUser?) {
+        
+        CurrentUser.sharedUser.name = user?.displayName ?? user?.email
+        CurrentUser.sharedUser.signedIn = true
+        let notificationName = Notification.Name("kCurrentUserSignedIn")
+        NotificationCenter.default.post(name: notificationName, object: nil, userInfo: nil)
         performSegue(withIdentifier: "goToMapView", sender: nil)
+    }
+    
+    private func setNameFor(user:FIRUser){
+        let changeRequest = user.profileChangeRequest()
+        changeRequest.displayName = user.email!.components(separatedBy: "@")[0]
+        changeRequest.commitChanges(){ (error) in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            self.signedIn(user: FIRAuth.auth()?.currentUser)
+        }
+    }
+    
+    //MARK: - IBAction
+    
+    @IBAction func didTouchSignInButton(_ sender: Any) {
+        guard let email = emailTextField.text, let password = passwordTextField.text else { return }
+        FIRAuth.auth()?.signIn(withEmail: email, password: password) { (user, error) in
+            if let error = error {
+                self.presentAlertWith(String: "data")
+                print(error.localizedDescription)
+                return
+            }
+            self.signedIn(user: user)
+        }
     }
     
     @IBAction func didTouchCreateAccountButton(_ sender: Any) {
@@ -87,11 +124,28 @@ class AuthorizationViewController: UIViewController, UITextFieldDelegate {
             self.presentAlertWith(String: "password")
             return
         }
-        
+        FIRAuth.auth()?.createUser(withEmail: emailText, password: text, completion: { [unowned self] (user, error) in
+            if let error = error {
+                let alert = UIAlertController(title: nil, message: error.localizedDescription, preferredStyle: .alert)
+                let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+                alert.addAction(action)
+                self.present(alert, animated: true, completion: nil)
+                print(error.localizedDescription)
+                return
+            }
+            self.setNameFor(user: user!)
+        })
     }
     
     @IBAction func didTouchSignOutActionButton(segue: UIStoryboardSegue) {
-        
+        let firebaseAuth = FIRAuth.auth()
+        do {
+            try firebaseAuth?.signOut()
+            CurrentUser.sharedUser.signedIn = false
+            dismiss(animated: true, completion: nil)
+        } catch let signOutError as NSError {
+            print ("Error signing out: \(signOutError.localizedDescription)")
+        }
     }
 
 }

@@ -7,5 +7,7 @@ target 'UsersOnTheMap' do
 
   # Pods for UsersOnTheMap
    pod 'Firebase/Core'
+   pod 'Firebase/Auth'
+   pod 'Firebase/Database'
    pod 'GoogleMaps'
 end
