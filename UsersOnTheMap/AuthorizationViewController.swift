@@ -15,7 +15,9 @@ class AuthorizationViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
-        
+    
+    @IBOutlet weak var emailFieldConstraint: NSLayoutConstraint!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         emailTextField.placeholder = "email"
@@ -39,12 +41,18 @@ class AuthorizationViewController: UIViewController, UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        self.updateConstraintWith(number: 0)
         return true
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if textField.placeholder != nil {
             textField.placeholder = nil
+        }
+        if textField == emailTextField {
+            self.updateConstraintWith(number: -70)
+        } else {
+            self.updateConstraintWith(number: -110)
         }
         return true
     }
@@ -79,6 +87,13 @@ class AuthorizationViewController: UIViewController, UITextFieldDelegate {
     }
     
     //MARK: - Methods
+    
+    func updateConstraintWith(number: Float) {
+        self.emailFieldConstraint.constant = CGFloat(number)
+        UIView.animate(withDuration: 0.3, animations:{[unowned self] in
+            self.view.layoutIfNeeded()
+        })
+    }
     private func presentAlertWith(String string: String){
         let alert = UIAlertController(title: "Wrong \(string)", message: "Please, enter correct \(string)", preferredStyle: .alert)
         let action = UIAlertAction(title: "Ok", style: .default, handler: nil)

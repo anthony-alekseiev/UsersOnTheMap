@@ -119,6 +119,7 @@ class MapWithUsersViewController: UIViewController, UITableViewDataSource, CLLoc
             self.showEnableLocationServicesAlert()
         case .authorizedWhenInUse:
             locationManager.startUpdatingLocation()
+            locationManager.startUpdatingHeading()
             setCurrentLocation()
         default:
             print("Default")
@@ -152,7 +153,7 @@ class MapWithUsersViewController: UIViewController, UITableViewDataSource, CLLoc
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         setCurrentUserCoordinates()
     }
-    
+            
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         checkStatus()
     }
