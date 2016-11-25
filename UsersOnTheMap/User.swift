@@ -10,6 +10,8 @@ import Foundation
 import CoreLocation
 
 struct User {
+    
+    var signedIn = false
     var name: String?
     var currentLocation: CLLocationCoordinate2D?
     var ID : String?

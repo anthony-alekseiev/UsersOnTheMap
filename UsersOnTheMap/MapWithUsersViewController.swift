@@ -39,6 +39,7 @@ class MapWithUsersViewController: UIViewController, UITableViewDataSource, CLLoc
     
     override func viewWillDisappear(_ animated: Bool) {
         removeUsersObserver()
+        usersManager.updateCurrentUserInDatabase()
     }
 
     override func didReceiveMemoryWarning() {
@@ -73,7 +74,11 @@ class MapWithUsersViewController: UIViewController, UITableViewDataSource, CLLoc
                 if let location = user.currentLocation{
                     let marker = GMSMarker(position: location)
                     marker.userData = user.ID
-                    marker.icon = GMSMarker.markerImage(with: UIColor.blue)
+                    if user.signedIn {
+                        marker.icon = GMSMarker.markerImage(with: UIColor.green)
+                    } else {
+                        marker.icon = GMSMarker.markerImage(with: UIColor.lightGray)
+                    }
                     marker.map = mapView
                 }
             }

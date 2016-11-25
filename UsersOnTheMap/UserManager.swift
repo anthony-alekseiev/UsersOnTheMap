@@ -14,10 +14,11 @@ import FirebaseDatabase
 extension User {
     
     init?(data: [String:Any]) {
-        guard let id = data["id"] as! String?, let name = data["name"] as! String?, let lat = data["lat"] as! Double?, let lon = data["lon"] as! Double? else { return nil }
+        guard let id = data["id"] as! String?, let name = data["name"] as! String?, let lat = data["lat"] as! Double?, let lon = data["lon"] as! Double?, let isOnline = data["isOnline"] as! Bool? else { return nil }
         self.ID = id
         self.name = name
         self.currentLocation = CLLocationCoordinate2DMake(lat, lon)
+        self.signedIn = isOnline
     }
     
 }
@@ -64,12 +65,12 @@ class UserManager {
     //MARL: - Push Methods
 
     func updateCurrentUserInDatabase() {
-        let user = CurrentUser.sharedUser
-        let userRef = self.rootRef.child("users").child(user.id!)
-        userRef.child("id").setValue(user.id!)
-        userRef.child("lat").setValue(user.currentLocation?.latitude)
-        userRef.child("lon").setValue(user.currentLocation?.longitude)
-        userRef.child("name").setValue(user.name)
+        let userRef = self.rootRef.child("users").child(CurrentUser.sharedUser.id!)
+        userRef.child("isOnline").setValue(CurrentUser.sharedUser.signedIn)
+        userRef.child("id").setValue(CurrentUser.sharedUser.id!)
+        userRef.child("lat").setValue(CurrentUser.sharedUser.currentLocation?.latitude)
+        userRef.child("lon").setValue(CurrentUser.sharedUser.currentLocation?.longitude)
+        userRef.child("name").setValue(CurrentUser.sharedUser.name)
     }
     
     //MARK: - Observer Methods
