@@ -8,19 +8,20 @@
 
 import UIKit
 import Firebase
+import FirebaseAuth
+import FirebaseDatabase
 
 class AuthorizationViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         emailTextField.placeholder = "email"
         passwordTextField.placeholder = "password"
         emailTextField.delegate = self
         passwordTextField.delegate = self
-        // Do any additional setup after loading the view, typically from a nib.
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -35,6 +36,11 @@ class AuthorizationViewController: UIViewController, UITextFieldDelegate {
     }
     
     //MARK: - UITextFieldDelegate
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if textField.placeholder != nil {
@@ -82,23 +88,12 @@ class AuthorizationViewController: UIViewController, UITextFieldDelegate {
     
     private func signedIn(user:FIRUser?) {
         
-        CurrentUser.sharedUser.name = user?.displayName ?? user?.email
+        CurrentUser.sharedUser.id = user?.uid
+        CurrentUser.sharedUser.name = user?.email!.components(separatedBy: "@")[0]
         CurrentUser.sharedUser.signedIn = true
         let notificationName = Notification.Name("kCurrentUserSignedIn")
         NotificationCenter.default.post(name: notificationName, object: nil, userInfo: nil)
         performSegue(withIdentifier: "goToMapView", sender: nil)
-    }
-    
-    private func setNameFor(user:FIRUser){
-        let changeRequest = user.profileChangeRequest()
-        changeRequest.displayName = user.email!.components(separatedBy: "@")[0]
-        changeRequest.commitChanges(){ (error) in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            self.signedIn(user: FIRAuth.auth()?.currentUser)
-        }
     }
     
     //MARK: - IBAction
@@ -133,7 +128,7 @@ class AuthorizationViewController: UIViewController, UITextFieldDelegate {
                 print(error.localizedDescription)
                 return
             }
-            self.setNameFor(user: user!)
+            self.signedIn(user: user!)
         })
     }
     

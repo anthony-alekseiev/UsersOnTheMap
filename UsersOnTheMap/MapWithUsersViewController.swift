@@ -9,7 +9,7 @@
 import UIKit
 import GoogleMaps
 
-class MapWithUsersViewController: UIViewController, UITableViewDataSource, CLLocationManagerDelegate {
+class MapWithUsersViewController: UIViewController, UITableViewDataSource, CLLocationManagerDelegate, UITableViewDelegate {
     
     //MARK: - Outlets
     @IBOutlet weak var usersTableView: UITableView!
@@ -25,9 +25,20 @@ class MapWithUsersViewController: UIViewController, UITableViewDataSource, CLLoc
     override func viewDidLoad() {
         super.viewDidLoad()
         updateUsers()
-        addUsersObserver()
         setUpMap()
         locationManager.delegate = self
+        setCurrentUserCoordinates()
+        usersManager.updateCurrentUserInDatabase()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        usersManager.updateObservers()
+        addUsersObserver()
+        updateUsers()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        removeUsersObserver()
     }
 
     override func didReceiveMemoryWarning() {
@@ -56,10 +67,13 @@ class MapWithUsersViewController: UIViewController, UITableViewDataSource, CLLoc
         if !users.isEmpty {
             mapView.clear()
             for user in users {
+                if user.ID == CurrentUser.sharedUser.id{
+                    continue
+                }
                 if let location = user.currentLocation{
                     let marker = GMSMarker(position: location)
+                    marker.userData = user.ID
                     marker.icon = GMSMarker.markerImage(with: UIColor.blue)
-                    marker.appearAnimation = kGMSMarkerAnimationPop
                     marker.map = mapView
                 }
             }
@@ -82,6 +96,12 @@ class MapWithUsersViewController: UIViewController, UITableViewDataSource, CLLoc
         })
     }
     
+    func setCurrentUserCoordinates() {
+        guard let location = mapView.myLocation else {return}
+        CurrentUser.sharedUser.currentLocation = location.coordinate
+        usersManager.updateCurrentUserInDatabase()
+    }
+    
     func showEnableLocationServicesAlert(){
         let alert = UIAlertController(title: "Геопозиция запрещена пользователем для этого приложения.", message: "Если вы хотите использовать карты, пожалуйста, разрешите использование геопозиции в настройках приложения.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Отменить", style: .cancel, handler: nil))
@@ -98,13 +118,21 @@ class MapWithUsersViewController: UIViewController, UITableViewDataSource, CLLoc
         case .denied:
             self.showEnableLocationServicesAlert()
         case .authorizedWhenInUse:
+            locationManager.startUpdatingLocation()
             setCurrentLocation()
         default:
             print("Default")
         }
     }
     
-    // MARK: - UITableViewDataSource
+    //MARK: - UITableViewDelegate
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        mapView.animate(toLocation: self.users[indexPath.row].currentLocation!)
+        mapView.animate(toZoom: 14)
+    }
+    
+    //MARK: - UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return users.count
@@ -121,12 +149,11 @@ class MapWithUsersViewController: UIViewController, UITableViewDataSource, CLLoc
     
     //MARK: - CLLocationManagerDelegate
     
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        setCurrentUserCoordinates()
+    }
+    
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         checkStatus()
     }
-    
-    deinit {
-        removeUsersObserver()
-    }
-    
 }

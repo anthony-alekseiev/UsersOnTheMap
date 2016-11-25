@@ -9,6 +9,7 @@
 import Foundation
 import CoreLocation
 import Firebase
+import FirebaseDatabase
 
 extension User {
     
@@ -30,7 +31,9 @@ let kUsersManagerUserKey = "kUsersManagerUserKey"
 
 class UserManager {
     
-    static let defaultManager = UserManager()
+    static let defaultManager : UserManager = {
+        return UserManager()
+    }()
     
     private var users = Dictionary<String,User>()
     lazy private var rootRef:FIRDatabaseReference = {
@@ -45,7 +48,6 @@ class UserManager {
     
     private init() {
         usersRef = rootRef.child("users")
-        addObservers()
     }
     
     deinit {
@@ -57,6 +59,17 @@ class UserManager {
     
     func getUsers() -> [String:User] {
         return self.users
+    }
+    
+    //MARL: - Push Methods
+
+    func updateCurrentUserInDatabase() {
+        let user = CurrentUser.sharedUser
+        let userRef = self.rootRef.child("users").child(user.id!)
+        userRef.child("id").setValue(user.id!)
+        userRef.child("lat").setValue(user.currentLocation?.latitude)
+        userRef.child("lon").setValue(user.currentLocation?.longitude)
+        userRef.child("name").setValue(user.name)
     }
     
     //MARK: - Observer Methods
@@ -100,7 +113,7 @@ class UserManager {
 
     }
     
-    private func updateObservers() {
+    func updateObservers() {
         removeObservers()
         addObservers()
     }

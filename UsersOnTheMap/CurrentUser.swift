@@ -9,12 +9,12 @@
 import Foundation
 import CoreLocation
 
-struct CurrentUser {
+class CurrentUser {
     
     static var sharedUser = CurrentUser()
     
     var signedIn = false
     var name : String?
     var currentLocation : CLLocationCoordinate2D?
-    
+    var id : String?
 }
